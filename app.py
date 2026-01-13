@@ -79,18 +79,16 @@ if uploaded_file is not None:
         
         bg_image = Image.fromarray(processed_img)
 
-        # Display Logic
+        # Display Logic - Use full size to avoid resizing issues online
         max_width = 700
         original_width, original_height = bg_image.size
         
         if original_width > max_width:
-            display_scale = max_width / original_width
-            canvas_width = max_width
-            canvas_height = int(original_height * display_scale)
-        else:
-            display_scale = 1.0
-            canvas_width = original_width
-            canvas_height = original_height
+            st.warning("Image is large; drawing may be slow. Consider resizing your photo.")
+        
+        canvas_width = original_width
+        canvas_height = original_height
+        display_scale = 1.0
 
         st.write("👇 **Draw Lines Below:**")
         
