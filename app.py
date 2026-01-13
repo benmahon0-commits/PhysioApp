@@ -57,22 +57,23 @@ st.title("📏 Unified Health Measurement Tool")
 uploaded_file = st.file_uploader("Upload Photo", type=['jpg', 'jpeg', 'png'])
 
 if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    
-    # 1. Force Orientation
-    try:
-        image = ImageOps.exif_transpose(image)
-    except:
-        pass
+    with st.spinner("Processing image..."):
+        image = Image.open(uploaded_file)
         
-    # 2. Resize to Safe Limit
-    max_dimension = 800
-    if image.width > max_dimension or image.height > max_dimension:
-        image.thumbnail((max_dimension, max_dimension))
-    
-    img_array = np.array(image.convert("RGB"))
-    
-    processed_img, px_per_mm_x, px_per_mm_y = detect_aruco_and_get_ratios(img_array)
+        # 1. Force Orientation
+        try:
+            image = ImageOps.exif_transpose(image)
+        except:
+            pass
+            
+        # 2. Resize to Safe Limit
+        max_dimension = 800
+        if image.width > max_dimension or image.height > max_dimension:
+            image.thumbnail((max_dimension, max_dimension))
+        
+        img_array = np.array(image.convert("RGB"))
+        
+        processed_img, px_per_mm_x, px_per_mm_y = detect_aruco_and_get_ratios(img_array)
 
     if px_per_mm_x and px_per_mm_y:
         st.success(f"Active! Scales: X={px_per_mm_x:.2f}, Y={px_per_mm_y:.2f}")
