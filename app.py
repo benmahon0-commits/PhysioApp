@@ -66,7 +66,7 @@ if uploaded_file is not None:
         pass
         
     # 2. Resize to Safe Limit
-    max_dimension = 1200
+    max_dimension = 800
     if image.width > max_dimension or image.height > max_dimension:
         image.thumbnail((max_dimension, max_dimension))
     
@@ -80,7 +80,7 @@ if uploaded_file is not None:
         bg_image = Image.fromarray(processed_img)
 
         # Display Logic
-        max_width = 700
+        max_width = 600
         original_width, original_height = bg_image.size
         
         if original_width > max_width:
